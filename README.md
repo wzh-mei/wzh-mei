@@ -1,6 +1,6 @@
 - 👋 Hi, I’m @wzh-mei
-- 👀 I’m interested in Photography, Making music & Machine-Learning
-- 🌱 I’m currently learning frontend dev and C++
+- 👀 I’m interested in Photography, Making music & Playing Bass guitar
+- 🌱 I’m currently learning Rust, C++ and Go
 - 💞️ I’m looking to collaborate on fundemental frastructure & tool development 
 - 📫 How to reach me wangzhihui.mei@intel.com
 
