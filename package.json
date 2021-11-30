@@ -1,13 +1,15 @@
 {
   "name": "dphelper",
   "version": "1.0.0",
-  "description": "",
+  "description": "File-based DSE backend",
   "main": "index.js",
   "scripts": {
     "test": "cd src && ts-node ./test.ts",
-    "server": "ts-node ./src/srv.ts"
+    "server": "ts-node ./src/srv.ts",
+    "start": "ts-node ./src/srv.ts",
+    "dev": "nodemon ./src/srv.ts"
   },
-  "author": "",
+  "author": "wmei",
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^16.11.6",
@@ -27,10 +29,18 @@
     "vue-eslint-parser": "^7.1.1"
   },
   "dependencies": {
+    "@types/cors": "^2.8.12",
+    "@types/express-pino-logger": "^4.0.3",
+    "@types/multer": "^1.4.7",
+    "@types/pino": "^7.0.5",
     "bull-board": "^2.1.3",
     "bullmq": "^1.52.1",
+    "cors": "^2.8.5",
     "csv-parse": "^4.16.3",
     "express": "^4.17.1",
-    "objects-to-csv": "^1.3.6"
+    "express-pino-logger": "^7.0.0",
+    "multer": "^1.4.3",
+    "objects-to-csv": "^1.3.6",
+    "pino": "^7.5.0"
   }
 }

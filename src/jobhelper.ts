@@ -2,25 +2,29 @@ import { getUserQueue } from './queueworker'
 import { Job } from 'bullmq'
 import * as fs from 'fs'
 import * as path from 'path'
+import { DPFile } from './dphelper'
 
-export async function genSimulation (
+export async function generateSimulation (
   queueUserName: string,
   workspacePath: string,
   exePath: string,
-  dpCSVPath: string,
+  dpCSV: DPFile,
   taskName: string,
   simDuration: string,
   license: string
 ): Promise<Job<any, any, string>> {
   const cmdQueue = getUserQueue(queueUserName).queue
   let cwd = `${workspacePath}/${taskName}`
-  if (!fs.existsSync(cwd)) {
+  if (fs.existsSync(cwd)) {
+    fs.rmdirSync(cwd, { recursive: true })
+    fs.mkdirSync(cwd, { recursive: true })
+  } else {
     fs.mkdirSync(cwd, { recursive: true })
   }
+  fs.writeFileSync(`${cwd}/sim_param.json`, JSON.stringify(dpCSV.param))
   cwd = path.resolve(cwd)
   exePath = path.resolve(exePath)
-  dpCSVPath = path.resolve(dpCSVPath)
-  console.log(dpCSVPath, license, simDuration)
+  const dpCSVPath = path.resolve(dpCSV.file)
   let args = [
     `${exePath}`,
     `--cf-dp-values-file=${dpCSVPath}`,
@@ -37,20 +41,22 @@ export async function genSimulation (
   return data
 }
 
-export async function genSimulationsWithDpSet (
+export async function generateSimulationsWithDpSetList (
   queueUserName: string,
   workspacePath: string,
+  subWorkspacePath: string,
   exePath: string,
-  dpCSVFiles: string[],
+  dpCSVFiles: DPFile[],
   simDuration: string,
   license: string
 ): Promise<any> {
   const res = []
+  const workDir = `${workspacePath}/${subWorkspacePath}`
   for (const idx in dpCSVFiles) {
     res.push(
-      await genSimulation(
+      await generateSimulation(
         queueUserName,
-        workspacePath,
+        workDir,
         exePath,
         dpCSVFiles[idx],
         idx,
