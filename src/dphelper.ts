@@ -12,6 +12,14 @@ export type DPFile = {
 
 type DPType = string | number | boolean | DPFile
 
+type treeNodeType = {
+  title: string | number
+  value: string | number
+  children: treeNodeType[]
+}
+
+type treeDataType = treeNodeType[]
+
 export type DPSet = {
   [key: string]: DPType
 }
@@ -89,6 +97,45 @@ function setJsonValue (_obj: DPSet, _key: string, _value: DPType): DPSet {
     eval(`_obj${jsonPathTranslate(_nKey)}=${_value}`)
   }
   return _obj
+}
+
+export function parseDPCSVFile (filePath: string): string[] {
+  const dpFileContents = fs.readFileSync(filePath)
+  const dpParams = parse(dpFileContents, {
+    columns: true
+  })
+  const ans = []
+  for (let i = 0; i < dpParams.length; i++) {
+    ans.push(dpParams[i].design_parameter_name)
+  }
+  return ans
+}
+
+// function parseJson2TreeData (json: {
+//   [key: string]: number | string | object
+// }): treeDataType {
+//   const ans: treeDataType = []
+//   for (const k in json) {
+//     const newObj: treeNodeType = { title: k, value: k, children: [] }
+//     if (json[k] instanceof Array && Object.keys(json[k]).length > 0) {
+//       for (let i = 0; i < Object.keys(json[k]).length; i++) {
+//         const a = parseJson2TreeData(json[k][i])
+//         newObj.children.push(a)
+//       }
+//     } else if (json[k] instanceof Object && Object.keys(json[k]).length > 0) {
+//       for (const kk in json[k].keys) {
+//         newObj.children.push(parseJson2TreeData(json[k][kk]))
+//       }
+//     }
+//   }
+//   return ans
+// }
+
+export function parseJsonFile (filePath: string): string[] {
+  const jsonFileContents = fs.readFileSync(filePath)
+  const jsonFileObj = JSON.parse(jsonFileContents.toString())
+
+  return jsonFileObj
 }
 
 export function generateDPInputFiles (

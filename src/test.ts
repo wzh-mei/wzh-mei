@@ -9,8 +9,6 @@ import { generateSimulationsWithDpSetList } from './jobhelper'
 
 import { aggregateData } from './datahelper'
 
-import * as fs from 'fs'
-
 // const ijr = {
 //   key: 'streams.0.ops.1.inject_rate',
 //   value: [0.1, 0.11, 0.12]
@@ -70,8 +68,7 @@ import * as fs from 'fs'
 // })
 
 const ans = aggregateData(
-  '../extra/run/fff',
-  ['0', '2', '4'],
+  '../extra/run/fffnsins'[('0', '2', '4')],
   'sim_param.json',
   'received_packet_statistic.csv',
   'layer IV port 0',
